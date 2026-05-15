@@ -3,7 +3,7 @@
 This is a simple Agentic RAG example that uses [Mastra](https://mastra.ai/) framework with the official
 [@mastra/elasticsearch](https://www.npmjs.com/package/@mastra/elasticsearch) package.
 
-This code example is part of the article []() published in Elasticsearch Labs of [Elastic](https://www.elastic.co/).
+This code example is part of the article [How to build agentic AI applications with Mastra and Elasticsearch](https://www.elastic.co/search-labs/blog/build-agentic-ai-applications-mastra-elasticsearch) published in Elasticsearch Labs of [Elastic](https://www.elastic.co/).
 
 ## Getting Started
 
