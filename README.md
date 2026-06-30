@@ -33,7 +33,7 @@ ELASTICSEARCH_INDEX_NAME=scifi-movies
 This project example uses OpenAI as embedding service, this means you need to provide an API key
 for OpenAI in the `OPENAI_API_KEY` env variable.
 
-The embedding model used in the example is [openai/text-embedding-3-small](https://developers.openai.com/api/docs/models/text-embedding-3-small) with an embedding dimesion of 1536.
+The embedding model used in the example is [text-embedding-3-small](https://developers.openai.com/api/docs/models/text-embedding-3-small) from OpenAI, hosted in Microsoft Azure. Specificall this model has an embedding dimension of 1536.
 
 To generate the answer we used the [openai/gpt-5-nano](https://developers.openai.com/api/docs/models/gpt-5-nano) model to reduce the costs.
 

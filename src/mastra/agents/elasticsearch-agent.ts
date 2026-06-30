@@ -28,7 +28,12 @@ const esVector = new ElasticSearchVector({
 const vectorQueryTool = createVectorQueryTool({
   vectorStore: esVector,
   indexName: es_index_name,
-  model: new ModelRouterEmbeddingModel("openai/text-embedding-3-small")
+  model: new ModelRouterEmbeddingModel({
+    providerId: "azure-openai",
+    modelId: "text-embedding-3-small",
+    url: process.env.OPENAI_URL,
+    apiKey: process.env.OPENAI_API_KEY
+  })
 });
 
 export const elasticsearchAgent = new Agent({
@@ -55,7 +60,16 @@ If the context doesn't contain enough information to fully answer the question, 
 Do not add more information than what is present in the retrieved chunks.
 Remember: Explain how you're using the retrieved information to reach your conclusions.
 `,
-  model: 'openai/gpt-5-nano',
+  model: {
+    providerId: "azure-openai",
+    modelId: "gpt-5.4-nano",
+    url: process.env.OPENAI_URL,
+    apiKey: process.env.OPENAI_API_KEY
+  },
   tools: { vectorQueryTool },
-  memory: new Memory(),
+  memory: new Memory({
+    options: {
+      lastMessages: 20,
+    }
+  }),
 });

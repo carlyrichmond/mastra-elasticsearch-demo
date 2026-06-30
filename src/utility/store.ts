@@ -38,7 +38,14 @@ try {
   }
 }
 
-const openaiEmbeddingModel = new ModelRouterEmbeddingModel("openai/text-embedding-3-small");
+const openaiEmbeddingModel = new ModelRouterEmbeddingModel(
+  {
+    providerId: "azure-openai",
+    modelId: "text-embedding-3-small",
+    url: process.env.OPENAI_URL,
+    apiKey: process.env.OPENAI_API_KEY
+  }
+);
 
 // Read the sci-fi movies dataset
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
