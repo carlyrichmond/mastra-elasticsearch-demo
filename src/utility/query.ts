@@ -54,7 +54,7 @@ const searchMovies = async () => {
     indexName: elasticsearchIndexName!,
     queryVector: embedding,
     topK: 10,
-    filter: { director: "Roger Vadim" },
+    filter: { director: { $in: ["Roger Vadim", "Phillip R. Ford"] } },
   });
 
   if (results.length === 0) {
