@@ -37,8 +37,8 @@ export const vectorQueryTool = createVectorQueryTool({
     model: 'gpt-5.4-nano',
     options: {
       weights: {
-        semantic: 0.5, // Semantic relevance weight
-        vector: 0.3, // Vector similarity weight
+        semantic: 0.2, // Semantic relevance weight
+        vector: 0.6, // Vector similarity weight
         position: 0.2, // Original position weight
       },
       topK: 5,

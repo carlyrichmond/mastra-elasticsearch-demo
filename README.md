@@ -11,9 +11,9 @@ This code example is based on the article [How to build agentic AI applications 
 
 Specifically, the repository contains the following elements:
 
-1. A simple retrieval agent, named *Elasticsearch Agent* to retrieve relevant documents from Elasticsearch.
-2. A simple workflow *Movies Workflow* which makes movie recommendations using the Elasticsearch Agent and approve the suggestions.
-3. 
+1. A simple retrieval agent, named [*Elasticsearch Agent*](./src/mastra/agents/elasticsearch-agent.ts) to retrieve relevant documents from Elasticsearch.
+2. A simple workflow [*Movies Workflow*](./src/mastra/workflows/movies-workflow.ts) which makes movie recommendations using the Elasticsearch Agent and approve the suggestions.
+3. Various pre-built and custom scorers to evaluate the assistant results. Specifically, the [*Thinking Scorer*](./src/mastra/scorers/relevance-scorer.ts) is an example of a custom scorer.
 
 ## Getting Started
 
@@ -157,7 +157,7 @@ You can click on the `Mastra Studio > Agents` menu and select the `Elasticsearch
 For instance, you can ask information regarding the sci-fi movies with a question as follows:
 
 ```
-Find movies about UFOs.
+Find me some UFO movies
 ```
 
 This will trigger the `vectorQueryTool` tool that will execute a vector search in the `scifi-movies` index of Elasticsearch retrieving the relevant chunks (i.e. documents). The retrieved chunks will be added to the previous prompt and passed to LLM that will generated the final answer.
