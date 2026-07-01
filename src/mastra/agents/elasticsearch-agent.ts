@@ -1,4 +1,6 @@
 import { Agent } from "@mastra/core/agent";
+import { ModelRouterEmbeddingModel } from "@mastra/core/llm";
+import { LibSQLStore, LibSQLVector } from "@mastra/libsql";
 import { Memory } from "@mastra/memory";
 
 import { vectorQueryTool } from "../tools/vector-query-tool";
@@ -32,42 +34,60 @@ Remember: Explain how you're using the retrieved information to reach your concl
     providerId: "azure-openai",
     modelId: "gpt-5.4-nano",
     url: process.env.OPENAI_URL,
-    apiKey: process.env.OPENAI_API_KEY
+    apiKey: process.env.OPENAI_API_KEY,
   },
   scorers: {
     toolCallAppropriateness: {
       scorer: scorers.toolCallAppropriatenessScorer,
       sampling: {
-        type: 'ratio',
+        type: "ratio",
         rate: 1,
       },
     },
     completeness: {
       scorer: scorers.completenessScorer,
       sampling: {
-        type: 'ratio',
+        type: "ratio",
         rate: 1,
       },
     },
     answerRelevancy: {
       scorer: scorers.answerRelevancyScorer,
       sampling: {
-        type: 'ratio',
+        type: "ratio",
         rate: 1,
       },
     },
     thinking: {
       scorer: scorers.thinkingScorer,
       sampling: {
-        type: 'ratio',
+        type: "ratio",
         rate: 1,
       },
-    }
+    },
   },
   tools: { vectorQueryTool },
   memory: new Memory({
+    storage: new LibSQLStore({
+      id: "agent-storage",
+      url: "file:./local.db",
+    }),
+    vector: new LibSQLVector({
+      id: "agent-vector",
+      url: "file:./local.db",
+    }),
+    embedder: new ModelRouterEmbeddingModel({
+      providerId: "azure-openai",
+      modelId: "text-embedding-3-small",
+      url: process.env.OPENAI_URL,
+      apiKey: process.env.OPENAI_API_KEY,
+    }),
     options: {
       lastMessages: 20,
-    }
+      semanticRecall: true,
+      workingMemory: {
+        enabled: true,
+      }
+    },
   }),
 });
