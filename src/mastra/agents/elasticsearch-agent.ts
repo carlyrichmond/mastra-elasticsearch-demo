@@ -1,40 +1,8 @@
 import { Agent } from "@mastra/core/agent";
-import { ElasticSearchVector } from '@mastra/elasticsearch';
-import { createVectorQueryTool } from '@mastra/rag';
-import { ModelRouterEmbeddingModel } from "@mastra/core/llm";
 import { Memory } from "@mastra/memory";
 
-const es_url = process.env.ELASTICSEARCH_URL;
-if (!es_url) {
-  throw new Error("ELASTICSEARCH_URL is not defined");
-}
-const es_apikey = process.env.ELASTICSEARCH_API_KEY;
-if (!es_apikey) {
-  throw new Error("ELASTICSEARCH_API_KEY is not defined");
-}
-const es_index_name = process.env.ELASTICSEARCH_INDEX_NAME;
-if (!es_index_name) {
-  throw new Error("ELASTICSEARCH_INDEX_NAME is not defined");
-}
-
-const esVector = new ElasticSearchVector({
-  id: 'elasticsearch-vector',
-  url: es_url,
-  auth: {
-    apiKey : es_apikey
-  }
-});
-
-const vectorQueryTool = createVectorQueryTool({
-  vectorStore: esVector,
-  indexName: es_index_name,
-  model: new ModelRouterEmbeddingModel({
-    providerId: "azure-openai",
-    modelId: "text-embedding-3-small",
-    url: process.env.OPENAI_URL,
-    apiKey: process.env.OPENAI_API_KEY
-  })
-});
+import { vectorQueryTool } from "../tools/vector-query-tool";
+import { scorers } from "../scorers/relevance-scorer";
 
 export const elasticsearchAgent = new Agent({
   id: "elasticsearch-agent",
@@ -65,6 +33,36 @@ Remember: Explain how you're using the retrieved information to reach your concl
     modelId: "gpt-5.4-nano",
     url: process.env.OPENAI_URL,
     apiKey: process.env.OPENAI_API_KEY
+  },
+  scorers: {
+    toolCallAppropriateness: {
+      scorer: scorers.toolCallAppropriatenessScorer,
+      sampling: {
+        type: 'ratio',
+        rate: 1,
+      },
+    },
+    completeness: {
+      scorer: scorers.completenessScorer,
+      sampling: {
+        type: 'ratio',
+        rate: 1,
+      },
+    },
+    answerRelevancy: {
+      scorer: scorers.answerRelevancyScorer,
+      sampling: {
+        type: 'ratio',
+        rate: 1,
+      },
+    },
+    thinking: {
+      scorer: scorers.thinkingScorer,
+      sampling: {
+        type: 'ratio',
+        rate: 1,
+      },
+    }
   },
   tools: { vectorQueryTool },
   memory: new Memory({

@@ -2,16 +2,15 @@
 import { Mastra } from '@mastra/core/mastra';
 import { PinoLogger } from '@mastra/loggers';
 import { LibSQLStore } from '@mastra/libsql';
-import { Observability, DefaultExporter, CloudExporter, SensitiveDataFilter } from '@mastra/observability';
-import { weatherWorkflow } from './workflows/weather-workflow';
-import { weatherAgent } from './agents/weather-agent';
+import { Observability, MastraStorageExporter, MastraPlatformExporter, SensitiveDataFilter } from '@mastra/observability';
+import { moviesWorkflow } from './workflows/movies-workflow';
 import { elasticsearchAgent } from './agents/elasticsearch-agent';
-import { toolCallAppropriatenessScorer, completenessScorer, translationScorer } from './scorers/weather-scorer';
+import { answerRelevancyScorer, completenessScorer, toolCallAppropriatenessScorer, thinkingScorer } from './scorers/relevance-scorer';
 
 export const mastra = new Mastra({
-  workflows: { weatherWorkflow },
-  agents: { weatherAgent, elasticsearchAgent },
-  scorers: { toolCallAppropriatenessScorer, completenessScorer, translationScorer },
+  workflows: { moviesWorkflow },
+  agents: { elasticsearchAgent },
+  scorers: { toolCallAppropriatenessScorer, completenessScorer, answerRelevancyScorer, thinkingScorer },
   storage: new LibSQLStore({
     id: "mastra-storage",
     // stores observability, scores, ... into persistent file storage
@@ -26,8 +25,8 @@ export const mastra = new Mastra({
       default: {
         serviceName: 'mastra',
         exporters: [
-          new DefaultExporter(), // Persists traces to storage for Mastra Studio
-          new CloudExporter(), // Sends traces to Mastra Cloud (if MASTRA_CLOUD_ACCESS_TOKEN is set)
+          new MastraStorageExporter(), // Persists traces to storage for Mastra Studio
+          new MastraPlatformExporter(), // Sends traces to Mastra Platform (if MASTRA_PLATFORM_ACCESS_TOKEN is set)
         ],
         spanOutputProcessors: [
           new SensitiveDataFilter(), // Redacts sensitive data like passwords, tokens, keys
