@@ -6,9 +6,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-const elasticsearchUrl = process.env.ELASTICSEARCH_URL;
-const elasticsearchApiKey = process.env.ELASTICSEARCH_API_KEY;
-const elasticsearchIndexName = process.env.ELASTICSEARCH_INDEX_NAME;
+import { elasticsearchUrl, elasticsearchApiKey, elasticsearchIndexName } from "./consts";
 
 if (!elasticsearchUrl || !elasticsearchApiKey || !elasticsearchIndexName) {
   throw new Error("Please set ELASTICSEARCH_URL, ELASTICSEARCH_API_KEY, and ELASTICSEARCH_INDEX_NAME environment variables.");

@@ -94,6 +94,28 @@ Ingesting ░░░░░░░░░░░░░░░░░░░░░░░�
 ✅ Ingestion complete in 1m 46s. Success: 500, Failed: 0, Chunks: 693.
 ```
 
+## Simple example query
+
+One documents have been added to the index, the [src/utility/query.ts](src/utility/query.ts) script provides an example vector search with simple lexical filtering against the Elasticsearch index, using OpenAI API to generate the embeddings.
+
+To execute, run the following command:
+
+``` bash
+npx tsx src/utility/query.ts
+```
+
+With the sample query `Sci-fi movies with a strong female lead`, it will generate results similar to the following:
+
+```
+✅ Index scifi-movies exists
+✅ Embedding generated for query "Sci-fi movies with a strong female lead"
+✅ 4 results found for query "Sci-fi movies with a strong female lead"
+[1] Title: Barbarella, Director: Roger Vadim, Score: 0.703912
+[2] Title: Barbarella, Director: Roger Vadim, Score: 0.703912
+[3] Title: Barbarella, Director: Roger Vadim, Score: 0.6644496
+[4] Title: Barbarella, Director: Roger Vadim, Score: 0.6644496
+```
+
 ## Start the project example
 
 To start the project you an execute the following command:

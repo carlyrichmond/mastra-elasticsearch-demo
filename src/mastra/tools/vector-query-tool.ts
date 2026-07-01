@@ -26,10 +26,22 @@ const esVector = new ElasticSearchVector({
 export const vectorQueryTool = createVectorQueryTool({
   vectorStore: esVector,
   indexName: es_index_name,
+  enableFilter: true,
   model: new ModelRouterEmbeddingModel({
     providerId: "azure-openai",
     modelId: "text-embedding-3-small",
     url: process.env.OPENAI_URL,
     apiKey: process.env.OPENAI_API_KEY
-  })
+  }),
+  reranker: {
+    model: 'gpt-5.4-nano',
+    options: {
+      weights: {
+        semantic: 0.5, // Semantic relevance weight
+        vector: 0.3, // Vector similarity weight
+        position: 0.2, // Original position weight
+      },
+      topK: 5,
+    },
+  }
 });
