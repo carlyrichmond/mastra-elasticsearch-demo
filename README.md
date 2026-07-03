@@ -109,11 +109,12 @@ With the sample query `Sci-fi movies with a strong female lead`, it will generat
 ```
 ✅ Index scifi-movies exists
 ✅ Embedding generated for query "Sci-fi movies with a strong female lead"
-✅ 4 results found for query "Sci-fi movies with a strong female lead"
-[1] Title: Barbarella, Director: Roger Vadim, Score: 0.703912
-[2] Title: Barbarella, Director: Roger Vadim, Score: 0.703912
-[3] Title: Barbarella, Director: Roger Vadim, Score: 0.6644496
-[4] Title: Barbarella, Director: Roger Vadim, Score: 0.6644496
+✅ 5 results found for query "Sci-fi movies with a strong female lead"
+[1] Title: Vegas in Space, Director: Phillip R. Ford, Score: 0.70868087
+[2] Title: Barbarella, Director: Roger Vadim, Score: 0.7040544
+[3] Title: Barbarella, Director: Roger Vadim, Score: 0.70401514
+[4] Title: Barbarella, Director: Roger Vadim, Score: 0.66457295
+[5] Title: Barbarella, Director: Roger Vadim, Score: 0.6645526
 ```
 
 ## Start the project example
