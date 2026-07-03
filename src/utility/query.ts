@@ -44,15 +44,14 @@ const openaiEmbeddingModel = new ModelRouterEmbeddingModel({
 // Search for sci-fi movies
 const searchMovies = async () => {
   const query = "Sci-fi movies with a strong female lead";
-  const { embeddings: batchEmbeddings } = await openaiEmbeddingModel.doEmbed({
+  const { embeddings } = await openaiEmbeddingModel.doEmbed({
     values: [query],
   });
-  const embedding = batchEmbeddings[0];
   console.log(`✅ Embedding generated for query "${query}"`);
 
   const results = await vectorStore.query({
     indexName: elasticsearchIndexName!,
-    queryVector: embedding,
+    queryVector: embeddings[0],
     topK: 10,
     filter: { director: { $in: ["Roger Vadim", "Phillip R. Ford"] } }
   });
